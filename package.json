@@ -1,0 +1,28 @@
+{
+  "name": "can-zone-jsdom",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/canjs/can-zone-jsdom.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/canjs/can-zone-jsdom/issues"
+  },
+  "homepage": "https://github.com/canjs/can-zone-jsdom#readme",
+  "dependencies": {
+    "jsdom": "^11.2.0",
+    "once": "^1.4.0"
+  },
+  "devDependencies": {
+    "can-zone": "^0.6.10",
+    "done-ssr": "^1.1.5",
+    "mocha": "^3.5.3"
+  }
+}
