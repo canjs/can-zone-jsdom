@@ -17,12 +17,13 @@
   },
   "homepage": "https://github.com/canjs/can-zone-jsdom#readme",
   "dependencies": {
+    "can-zone": "^0.6.12",
     "jsdom": "^11.2.0",
     "once": "^1.4.0"
   },
   "devDependencies": {
     "can-zone": "^0.6.10",
-    "done-ssr": "^1.1.5",
+    "done-ssr": "^1.2.0-beta.0",
     "mocha": "^3.5.3"
   }
 }
