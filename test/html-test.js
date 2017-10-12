@@ -40,7 +40,7 @@ describe("SSR Zones - HTML", function(){
 						// Sets up a DOM
 						dom(request, {
 							root: __dirname + "/html",
-							html: pageHTML
+							html: "page.html"
 						}),
 
 						pushFetch(response),
