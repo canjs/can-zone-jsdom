@@ -38,7 +38,10 @@ describe("SSR Zones - HTML", function(){
 						requests(request),
 
 						// Sets up a DOM
-						dom(pageHTML),
+						dom(request, {
+							root: __dirname + "/html",
+							html: pageHTML
+						}),
 
 						pushFetch(response),
 						pushImages(response, __dirname + "/basics")
@@ -50,7 +53,6 @@ describe("SSR Zones - HTML", function(){
 		});
 
 		it("Includes the right HTML", function(){
-			console.log("gosh", this.zone.data.html);
 			var dom = helpers.dom(this.zone.data.html);
 			var ul = helpers.find(dom, node => node.nodeName === "UL");
 

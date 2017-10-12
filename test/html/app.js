@@ -1,6 +1,4 @@
 (function(){
-	console.log("I AM RUNNING");
-
 	var main = document.createElement("main");
 	var ul = document.createElement("ul");
 	main.appendChild(ul);
@@ -16,7 +14,7 @@
 			ul.appendChild(li);
 		});
 	})
-	.then(null, err => console.log(err))
+	.then(null, err => console.error("ERROR", err))
 
 	document.body.appendChild(main);
 })();
