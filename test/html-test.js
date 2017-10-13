@@ -82,4 +82,36 @@ describe("SSR Zones - HTML", function(){
 			assert.ok(data.length, "Got the data too");
 		});
 	});
+
+	describe("Multiple Requests", function(){
+		function processRequest() {
+			var request = new Request();
+			var response = this.response = new Response();
+
+			var zone = this.zone = new Zone({
+				plugins: [
+					// Overrides XHR, fetch
+					requests(request),
+
+					// Sets up a DOM
+					dom(request, {
+						root: __dirname + "/html",
+						html: "page.html"
+					}),
+
+					pushFetch(response),
+					pushImages(response, __dirname + "/basics")
+				]
+			});
+
+			return zone.run();
+		}
+
+		it("It runs the client code in a non-global context", function(){
+			return spinUpServer(() => {
+				return processRequest.call(this)
+					.then(() => processRequest.call(this));
+			});
+		});
+	});
 });
