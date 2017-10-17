@@ -1,6 +1,7 @@
 const main = document.createElement("main");
 const ul = document.createElement("ul");
 main.appendChild(ul);
+const getUserMedia = navigator.getUserMedia; // for testing https://github.com/canjs/can-zone-jsdom/issues/10
 
 const img = document.createElement("img");
 img.src = "/images/cat.png";
