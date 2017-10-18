@@ -148,4 +148,41 @@ describe("SSR Zones - HTML", function(){
 			assert.ok(!ul, "the ul was not added because no scripts ran");
 		});
 	});
+
+	describe("Pass in run function is used", function(){
+		var pageHTML = fs.readFileSync(__dirname + "/html/page.html", "utf8");
+
+		before(function(){
+			return spinUpServer(() => {
+				var request = new Request();
+				var response = this.response = new Response();
+
+				var zone = this.zone = new Zone({
+					plugins: [
+						// Overrides XHR, fetch
+						requests(request),
+
+						// Sets up a DOM
+						dom(request, {
+							root: __dirname + "/html",
+							html: "page.html",
+							executeScripts: false
+						})
+					]
+				});
+
+				return zone.run(function(){
+					var main = document.createElement("main");
+					document.body.appendChild(main);
+				});
+			});
+		});
+
+		it("Includes the right HTML", function(){
+			var dom = helpers.dom(this.zone.data.html);
+			var main = helpers.find(dom, node => node.nodeName === "MAIN");
+
+			assert.ok(main, "the main is added from the run fn");
+		});
+	});
 });
