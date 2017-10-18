@@ -114,4 +114,38 @@ describe("SSR Zones - HTML", function(){
 			});
 		});
 	});
+
+	describe("executeScripts: false doesn't run the scripts", function(){
+		var pageHTML = fs.readFileSync(__dirname + "/html/page.html", "utf8");
+
+		before(function(){
+			return spinUpServer(() => {
+				var request = new Request();
+				var response = this.response = new Response();
+
+				var zone = this.zone = new Zone({
+					plugins: [
+						// Overrides XHR, fetch
+						requests(request),
+
+						// Sets up a DOM
+						dom(request, {
+							root: __dirname + "/html",
+							html: "page.html",
+							executeScripts: false
+						})
+					]
+				});
+
+				return zone.run();
+			});
+		});
+
+		it("Includes the right HTML", function(){
+			var dom = helpers.dom(this.zone.data.html);
+			var ul = helpers.find(dom, node => node.nodeName === "UL");
+
+			assert.ok(!ul, "the ul was not added because no scripts ran");
+		});
+	});
 });
