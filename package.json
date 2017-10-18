@@ -23,7 +23,8 @@
     "can-zone": "^0.6.12",
     "is-html": "^1.1.0",
     "jsdom": "^11.2.0",
-    "once": "^1.4.0"
+    "once": "^1.4.0",
+    "raf": "^3.4.0"
   },
   "devDependencies": {
     "done-ssr": "^1.2.0-beta.0",
