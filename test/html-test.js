@@ -185,4 +185,32 @@ describe("SSR Zones - HTML", function(){
 			assert.ok(main, "the main is added from the run fn");
 		});
 	});
+
+	describe("An app using external scripts", function(){
+		before(function(){
+			return spinUpServer(() => {
+				var request = new Request();
+				var response = this.response = new Response();
+
+				var zone = this.zone = new Zone({
+					plugins: [
+						// Overrides XHR, fetch
+						requests(request),
+
+						// Sets up a DOM
+						dom(request, {
+							root: __dirname + "/html/external",
+							html: "page.html"
+						})
+					]
+				});
+
+				return zone.run();
+			});
+		});
+
+		it("works", function(){
+			assert.ok(true);
+		});
+	})
 });
