@@ -212,5 +212,56 @@ describe("SSR Zones - HTML", function(){
 		it("works", function(){
 			assert.ok(true);
 		});
-	})
+	});
+
+	describe("An external root", function() {
+		before(async function() {
+			let apiServer = await createServer(8070, function(req, res){
+				res.end(JSON.stringify(["eat", "sleep"]));
+			});
+
+			let httpServer = await createServer(8090, function(req, res){
+				let stream = fs.createReadStream(__dirname + "/html" + req.url);
+				stream.pipe(res);
+			});
+
+			let request = new Request();
+			let response = this.response = new Response();
+			let rawHTML = fs.readFileSync(__dirname + "/html/page.html");
+
+			let zone = this.zone = new Zone({
+				plugins: [
+					// Overrides XHR, fetch
+					requests(request),
+
+					// Sets up a DOM
+					dom(request, {
+						root: "http://localhost:8090/",
+						html: rawHTML
+					})
+				]
+			});
+
+			await zone.run();
+
+			return new Promise(resolve => {
+				apiServer.close(() => {
+					httpServer.close(() => {
+						resolve();
+					});
+				});
+			});
+		});
+
+		it("Contains the correct HTML", function() {
+			var dom = helpers.dom(this.zone.data.html);
+			var ul = helpers.find(dom, node => node.nodeName === "UL");
+
+			var first = ul.firstChild.firstChild.nodeValue;
+			var second = ul.firstChild.nextSibling.firstChild.nodeValue;
+
+			assert.equal(first, "eat", "got the first li");
+			assert.equal(second, "sleep", "got the second li");
+		});
+	});
 });
