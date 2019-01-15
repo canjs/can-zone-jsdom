@@ -18,6 +18,6 @@ module.exports = function(){
 		})
 		.then(null, err => console.log(err))
 
-		document.body.appendChild(main);	
+		self.document.body.appendChild(main);	
 	});
 };
